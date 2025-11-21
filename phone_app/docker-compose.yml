@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+
+  web:
+    build: .
+    command: >
+      bash -c "uvicorn main:delivery_app --host 0.0.0.0 --port 8000"
+    volumes:
+      - .:/tel_app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+  db:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+
+volumes:
+  postgres_data:
